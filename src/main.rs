@@ -3,7 +3,7 @@ fn main() {
     let mut items: Vec<String> = Vec::new();
 
     loop {
-        println!("Todo CLI - Enter command (add/list/remove/quit):");
+        println!("Todo CLI - Enter command (add/list/remove/clear/quit):");
         let mut input = String::new();
 
         io::stdin().read_line(&mut input).unwrap();
@@ -25,11 +25,21 @@ fn main() {
                 let index_number: usize =
                     index.trim().parse().expect("Please enter a valid number");
                 items.remove(index_number);
+
+                println!("Removed the item on index {}", index);
             }
             "list" => {
-                for (i, item) in items.iter().enumerate() {
-                    println!("{} : {}", i, item);
+                if items.len() == 0 {
+                    println!("Your List is Empty.");
+                } else {
+                    for (i, item) in items.iter().enumerate() {
+                        println!("{} : {}", i, item);
+                    }
                 }
+            }
+            "clear" => {
+                items.clear();
+                println!("Cleared!");
             }
             "quit" => break,
             _ => println!("Unknown Command"),
