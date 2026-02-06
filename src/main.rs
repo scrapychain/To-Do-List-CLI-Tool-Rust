@@ -1,4 +1,4 @@
-use std::io::{self, Read};
+use std::io;
 fn main() {
     let mut items: Vec<String> = Vec::new();
 
@@ -18,15 +18,26 @@ fn main() {
                 println!("Added!");
             }
             "remove" => {
-                println!("Enter item number that you want to delete (0 to n-1)");
+                println!("Enter index that you want to delete (0 to n-1)");
                 let mut index = String::new();
                 io::stdin().read_line(&mut index).unwrap();
 
-                let index_number: usize =
-                    index.trim().parse().expect("Please enter a valid number");
+                let index_number: usize = index.trim().parse().expect("Please enter a valid index");
                 items.remove(index_number);
 
-                println!("Removed the item on index {}", index);
+                println!("Removed the item at index {}", index);
+            }
+            "edit" => {
+                println!("Enter index  of the item that you want to edit:");
+                let mut index = String::new();
+                let mut updated_item = String::new();
+                io::stdin().read_line(&mut index).unwrap();
+                println!("Enter new item: ");
+                io::stdin().read_line(&mut updated_item).unwrap();
+
+                let index_num: usize = index.trim().parse().expect("Enter a valid index.");
+                items[index_num] = updated_item;
+                println!("Item updated at index {}", index_num);
             }
             "list" => {
                 if items.len() == 0 {
@@ -36,6 +47,8 @@ fn main() {
                         println!("{} : {}", i, item);
                     }
                 }
+                println!("------------------------------------");
+                println!("Total item in the list: {}", items.len());
             }
             "clear" => {
                 items.clear();
